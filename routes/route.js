@@ -75,7 +75,7 @@ router.post('/:ip/:name/:email/:message/:token', (req, res, next) => {
   if (tokenEmail === tokenParam) {
     var mailOptions = {
       from: email, // sender address
-      to: 'tripathi.kautilya@gmail.com', // list of receivers
+      to: process.env.RECEIVER_EMAIL, // list of receivers
       subject: 'Contact Message from your site', // Subject line
       html: `
             <div style="background-color:#2E4053;color:#F1948A;font-style:italic;width:800px;font-size:24px;padding:20px;">

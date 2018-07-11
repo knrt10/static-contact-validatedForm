@@ -1,6 +1,6 @@
 
 <p align="center">
-<img src="https://user-images.githubusercontent.com/24803604/42559530-f6fece56-8511-11e8-93d3-3a286f82db48.png" />
+<img src="https://user-images.githubusercontent.com/24803604/42569454-28c50a24-852e-11e8-8a7a-fa424515587d.png" />
 </p>
 
 ## What is its use?
@@ -12,6 +12,8 @@ You can add a contact form in your static website like site hosted on Github and
 Sometimes people try to span your email and you get anonymous emails. To avoid this, I have created this so that one has to authenticate their emails before sending message to you.
 
 ## Preview
+
+![Preview](https://user-images.githubusercontent.com/24803604/42562224-c6beb790-8518-11e8-90af-687f5d03610b.gif)
 
 ## How to use
 
