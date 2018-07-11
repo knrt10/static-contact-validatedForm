@@ -3,8 +3,7 @@
   <div class="row">
     <div class="col-xs-12">
       <h1>Please verify your email with token sent to your email</h1>
-      <h2><%= data.ipaddress %>/<%= data.software %>/<%= data.name%>/<%= data.email %>/<%= data.message%>/<%= data.token%></h2>
-      <form action="/<%= data.ipaddress %>/<%= data.software %>/<%= data.name%>/<%= data.email %>/<%= data.message%>/<%= data.token%>" method="post">
+      <form action="/verify/<%= data.ipaddress %>/<%= data.name%>/<%= data.email %>/<%= data.message%>/<%= data.token%>" method="POST">
         <div class="form-group">
           <label for="token">Enter Token from your Email</label>
           <input type="text" name="token" class="form-control" id="token" aria-describedby="emailHelp" placeholder="Enter token" required autofocus>
