@@ -17,7 +17,7 @@ Sometimes people try to span your email and you get anonymous emails. To avoid t
 
 ## Preview
 
-![Preview](https://user-images.githubusercontent.com/24803604/42724391-02045486-878f-11e8-8af4-4e30c6a8ee3d.gif)
+![Preview](https://res.cloudinary.com/dsyvg5xwi/image/upload/v1531587414/out3_hpfi8i.gif)
 
 ## How to use
 

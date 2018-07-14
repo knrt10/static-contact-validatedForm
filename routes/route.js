@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const sgMail = require('@sendgrid/mail')
 const jwt = require('jsonwebtoken')
+const queryString = require('query-string')
 
 // setting SENDGRID_API_KEY
 sgMail.setApiKey(process.env.SENDGRID_API_KEY)
@@ -29,14 +30,14 @@ router.get('/', (req, res, next) => {
   }
 
   var token = jwt.sign({data: query}, process.env.SECRET)
-  var tokenEmail = jwt.sign({data: token.slice(17)}, process.env.SECRET, {
+  var tokenEmail = jwt.sign({data: token}, process.env.SECRET, {
     expiresIn: '1h'
   })
-  var decoded = jwt.verify(tokenEmail, process.env.SECRET)
-  var data = decoded.data
 
   // appending token in our object
-  query['token'] = data
+  query['token'] = tokenEmail
+
+  let queryies = queryString.stringify(query)
 
   var mailOptions = {
       from: 'Verify@Email.com', // sender address
@@ -44,9 +45,9 @@ router.get('/', (req, res, next) => {
       subject: 'Verify Your Email', // Subject line
       html: `
             <div style="background-color:#2E4053;color:#F1948A;font-style:italic;width:800px;font-size:24px;padding:20px;">
-            Your Email activation code is : <b style="color:#FAE5D3">` + data + `</b>
+            Click to verify your email : <a href="${process.env.HOSTED_URL}/verify/emailVerify?${queryies}" style="color:#FAE5D3">Click to verify</a>
             <br/><br/>
-            Enter this token to send email to ` + process.env.EMAIL_RECEIVER + `.
+            After clicking the link your message will be sent to ` + process.env.EMAIL_RECEIVER + `.
             <br/><br/>
             Please verify in 1 hour before it expires.
             <br/><br/>
@@ -61,48 +62,47 @@ router.get('/', (req, res, next) => {
   })
 })
 
-router.post('/', (req, res, next) => {
+router.get('/emailVerify', (req, res, next) => {
 
   const arr = []
-  const tokenUser = escape(req.body.token)
-  const data = JSON.parse(req.body.data)
+  const data = req.query
   const tokenEmail = data.token
+  try {
+    const decoded = jwt.verify(tokenEmail, process.env.SECRET)
 
-  // deleting token from out object
-  delete data.token
+      // deleting token from out object
+      delete data.token
 
-  if (tokenUser === '' || tokenUser === null || tokenUser === undefined) {
-    res.json('Please enter your token')
-    return next()
-  }
+      for (var prop in data) {
+        if (data.hasOwnProperty(prop)) {
+          var innerObj = {}
+          innerObj[prop] = data[prop];
+          arr.push(innerObj)
+        }
+      }
 
-  for (var prop in data) {
-    if (data.hasOwnProperty(prop)) {
-      var innerObj = {}
-      innerObj[prop] = data[prop];
-      arr.push(innerObj)
-    }
-  }
+      if (decoded.data) {
+        var mailOptions = {
+          from: data.email, // sender address
+          to: process.env.RECEIVER_EMAIL, // list of receivers
+          subject: 'Contact Message from your site', // Subject line
+          html: `
+                <div style="background-color:#2E4053;color:#F1948A;font-style:italic;width:800px;font-size:24px;padding:20px;">
+                ${arr.map((item) => `
+                <h3>`+ Object.keys(item) + `: `+ Object.values(item) +`</h3>
+              `.trim()).join('')}
+                </div>`
+        }
 
-  if (tokenEmail === tokenUser) {
-    var mailOptions = {
-      from: data.email, // sender address
-      to: process.env.RECEIVER_EMAIL, // list of receivers
-      subject: 'Contact Message from your site', // Subject line
-      html: `
-            <div style="background-color:#2E4053;color:#F1948A;font-style:italic;width:800px;font-size:24px;padding:20px;">
-            ${arr.map((item) => `
-            <h3>`+ Object.keys(item) + `: `+ Object.values(item) +`</h3>
-          `.trim()).join('')}
-            </div>`
-    }
-
-    sgMail.send(mailOptions, function (err) {
-      if (err) return next(err)
-      res.redirect(process.env.REDIRECT_URL)
-    })
-  } else {
-    res.json('Wrong Token. Please check again.')
+        sgMail.send(mailOptions, function (err) {
+          if (err) return next(err)
+          res.redirect(process.env.REDIRECT_URL)
+        })
+      } else {
+        res.json('Wrong Token. Please check again.')
+      }
+  } catch(err) {
+    res.json('Sorry not authorized for you.')
   }
 })
 
