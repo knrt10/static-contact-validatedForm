@@ -7,9 +7,13 @@
 
 You can add a contact form in your static website like site hosted on Github and able to get response from user.
 
-### Additional Features
+### Some Cool Features
 
 Sometimes people try to span your email and you get anonymous emails. To avoid this, I have created this so that one has to authenticate their emails before sending message to you.
+
+- Avoid Spam emails
+- Can add as many **name** fields in your HTML form.
+- Get IP address of the sender
 
 ## Preview
 
@@ -17,9 +21,7 @@ Sometimes people try to span your email and you get anonymous emails. To avoid t
 
 ## How to use
 
-1.) clone the repository
-
-- git clone `https://github.com/knrt10/static-contact-validatedForm.git`
+1.) fork the repository
 
 2.) Host it on any domain you want, I would suggest [Glitch](https://glitch.com/)
 
@@ -36,7 +38,7 @@ Sometimes people try to span your email and you get anonymous emails. To avoid t
 </form>
 ```
 
-**name** fields in html form should be same for form to work and no extra fields should be added, you can add your own CSS.
+**name** field in html form for **email** field is mandatory. Rest you can add as many as you want.
 
 :fire: Enjoy.
 

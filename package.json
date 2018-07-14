@@ -1,6 +1,6 @@
 {
   "name": "email-verification-static",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Send contact emails from your static sites with verification of user",
   "main": "app.js",
   "scripts": {
