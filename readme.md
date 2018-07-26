@@ -19,7 +19,7 @@ Sometimes people try to span your email and you get anonymous emails. To avoid t
 
 ![Preview](https://res.cloudinary.com/dsyvg5xwi/image/upload/v1531587414/out3_hpfi8i.gif)
 
-## How to use
+## How to setup your form
 
 1.) fork the repository
 
@@ -29,20 +29,28 @@ Sometimes people try to span your email and you get anonymous emails. To avoid t
 
 4.) Add this to form in your static site
 
-In **action** field of form add *your hosted URL/verify* , where hosted URL is one when you host the code on Glitch, Herkou, AWS type services.
+- **Paste your endpoint into your form**
+
+*Change your form's action attribute like this:*
+
+**Important** method should be **GET**
 
 ```html
-<form method="GET" action="your hosted URL/verify" accept-charset="UTF-8" >
-  <input id="name" type="text" name="name" required placeholder="Example:- Messi | Ronaldo">
-  <input id="email" type="email" name="email" placeholder="Example:- messi@ronaldo.com" required>                
-  <textarea id="textarea" name="message" placeholder="Enter your message" required ></textarea>
-  <button type="submit">Send</button>
-</form>
+<form method="GET" action="your hosted URL/verify" accept-charset="UTF-8" ></form>
 ```
 
+- **Add name attribute to every field**
+
+*Inputs, textareas, selects, radios should have unique name attributes*
+
+```html
+<input id="name" type="text" name="name" required placeholder="Example:- Messi | Ronaldo">
+<input id="email" type="email" name="email" placeholder="Example:- messi@ronaldo.com" required>                
+<textarea id="textarea" name="message" placeholder="Enter your message" required ></textarea>
+```
 **name** field in html form for **email** field is mandatory. Rest you can add as many as you want.
 
-:fire: Enjoy.
+- **All set, you're ready to collect submissions** :fire: Enjoy.
 
 ## license
 
