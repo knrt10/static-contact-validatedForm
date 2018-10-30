@@ -55,3 +55,5 @@ Sometimes people try to span your email and you get anonymous emails. To avoid t
 ## license
 
 MIT @knrt10
+
+Enjoy :v:
