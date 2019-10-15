@@ -94,4 +94,4 @@ npm start
 
 ## license
 
-MIT @knrt10
+MIT [@knrt10](https://github.com/knrt10)

@@ -1,13 +1,7 @@
 {
   "name": "static-contact-validation",
-  "version": 1,
+  "version": 2,
   "alias": "static-contact-validation",
-  "scale": {
-    "all": {
-      "min": 1,
-      "max": 1
-    }
-  },
   "env": {
     "SENDGRID_API_KEY_STATIC_CONTACT_VALIDATION": "@sendgrid-api-key-static-contact-validation",
     "SECRET_STATIC_CONTACT_VALIDATION": "@secret-static-contact-validation",
@@ -16,5 +10,29 @@
     "RECEIVER_EMAIL_STATIC_CONTACT_VALIDATION": "@receiver-email-static-contact-validation",
     "HOSTED_URL_STATIC_CONTACT_VALIDATION": "@hosted-url-static-contact-validation",
     "PORT_STATIC_CONTACT_VALIDATION": "@port-static-contact-validation"
+  },
+  "builds": [
+    {
+      "src": "app.js",
+      "use": "@now/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/",
+      "dest": "routes/route.js",
+      "methods": [
+        "GET"
+      ]
+    },
+    {
+      "src": "/emailVerify",
+      "dest": "routes/route.js",
+      "methods": [
+        "GET"
+      ]
+    }],
+  "github": {
+    "enabled": false
   }
 }
