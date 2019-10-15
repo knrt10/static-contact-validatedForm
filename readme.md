@@ -73,12 +73,12 @@ First follow [Initial Setup](#initial-setup) then you can use develop using 2 me
 
 ```bash
 
-npm run dockerStart # To start development
+npm run dockerStart # To start the service
 
 npm run dockerStop # To stop the service
 ```
 
-You can access you app at port specified in your `.env` file or **3000**
+You can access you appr at port specified in your `.env` file or **3000**
 
 #### Local Development 
 

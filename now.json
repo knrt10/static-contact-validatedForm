@@ -13,21 +13,14 @@
   },
   "builds": [
     {
-      "src": "app.js",
+      "src": "*.js",
       "use": "@now/node"
     }
   ],
   "routes": [
     {
-      "src": "/",
-      "dest": "routes/route.js",
-      "methods": [
-        "GET"
-      ]
-    },
-    {
-      "src": "/emailVerify",
-      "dest": "routes/route.js",
+      "src": "/verify.*",
+      "dest": "/index.js",
       "methods": [
         "GET"
       ]

@@ -4,7 +4,7 @@
   "description": "Send contact emails from your static sites with verification of user",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js",
+    "start": "nodemon index.js",
     "now-start": "npm start",
     "dockerStart": "cd script && chmod 777 dockerCompose.sh && ./dockerCompose.sh && cd ..",
     "dockerStop": "docker-compose down"
@@ -19,7 +19,8 @@
     "ejs": "^2.6.1",
     "express": "^4.16.3",
     "jsonwebtoken": "^8.3.0",
-    "query-string": "^6.1.0"
+    "query-string": "^6.1.0",
+    "store": "^2.0.12"
   },
   "devDependencies": {
     "nodemon": "^1.18.0"
