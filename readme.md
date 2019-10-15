@@ -25,6 +25,11 @@ Sometimes people try to span your email and you get anonymous emails. To avoid t
 git clone git@github.com:knrt10/static-contact-validatedForm.git
 
 cd static-contact-validatedForm/
+
+touch .env #create .env file
+
+copy keys of .env.example in your .env file and fill all the details
+
 ```
 
 ## How to setup your form
@@ -66,8 +71,26 @@ First follow [Initial Setup](#initial-setup) then you can use develop using 2 me
 
 #### Docker 
 
+```bash
+
+npm run dockerStart # To start development
+
+npm run dockerStop # To stop the service
+```
+
+You can access you app at port specified in your `.env` file or **3000**
+
 #### Local Development 
 
+```bash
+
+#install dependencies
+npm install
+
+#start the service
+npm start
+
+```
 
 ## license
 
