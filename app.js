@@ -5,7 +5,7 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const path = require('path')
 const app = express()
-const port = process.env.PORT || 3000
+const port = process.env.PORT_STATIC_CONTACT_VALIDATION || 3000
 // === END
 
 // Setting views for Administration

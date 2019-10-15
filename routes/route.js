@@ -4,8 +4,8 @@ const sgMail = require('@sendgrid/mail')
 const jwt = require('jsonwebtoken')
 const queryString = require('query-string')
 
-// setting SENDGRID_API_KEY
-sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+// setting SENDGRID_API_KEY_STATIC_CONTACT_VALIDATION
+sgMail.setApiKey(process.env.SENDGRID_API_KEY_STATIC_CONTACT_VALIDATION)
 
 // getting informaion when one send Email
 
@@ -29,8 +29,8 @@ router.get('/', (req, res, next) => {
     return next()
   }
 
-  var token = jwt.sign({ data: query }, process.env.SECRET)
-  var tokenEmail = jwt.sign({ data: token }, process.env.SECRET, {
+  var token = jwt.sign({ data: query }, process.env.SECRET_STATIC_CONTACT_VALIDATION)
+  var tokenEmail = jwt.sign({ data: token }, process.env.SECRET_STATIC_CONTACT_VALIDATION, {
     expiresIn: '1h'
   })
 
@@ -45,9 +45,9 @@ router.get('/', (req, res, next) => {
     subject: 'Verify Your Email', // Subject line
     html: `
             <div style="background-color:#2E4053;color:#F1948A;font-style:italic;width:800px;font-size:24px;padding:20px;">
-            Click to verify your email : <a href="${process.env.HOSTED_URL}/verify/emailVerify?${queryies}" style="color:#FAE5D3">Click to verify</a>
+            Click to verify your email : <a href="${process.env.HOSTED_URL_STATIC_CONTACT_VALIDATION}/verify/emailVerify?${queryies}" style="color:#FAE5D3">Click to verify</a>
             <br/><br/>
-            After clicking the link your message will be sent to ` + process.env.EMAIL_RECEIVER + `.
+            After clicking the link your message will be sent to ` + process.env.EMAIL_RECEIVER_STATIC_CONTACT_VALIDATION + `.
             <br/><br/>
             Please verify in 1 hour before it expires.
             <br/><br/>
@@ -68,7 +68,7 @@ router.get('/emailVerify', (req, res, next) => {
   const data = req.query
   const tokenEmail = data.token
   try {
-    const decoded = jwt.verify(tokenEmail, process.env.SECRET)
+    const decoded = jwt.verify(tokenEmail, process.env.SECRET_STATIC_CONTACT_VALIDATION)
 
     // deleting token from out object
     delete data.token
@@ -84,7 +84,7 @@ router.get('/emailVerify', (req, res, next) => {
     if (decoded.data) {
       var mailOptions = {
         from: data.email, // sender address
-        to: process.env.RECEIVER_EMAIL, // list of receivers
+        to: process.env.RECEIVER_EMAIL_STATIC_CONTACT_VALIDATION, // list of receivers
         subject: 'Contact Message from your site', // Subject line
         html: `
                 <div style="background-color:#2E4053;color:#F1948A;font-style:italic;width:800px;font-size:24px;padding:20px;">
@@ -96,7 +96,7 @@ router.get('/emailVerify', (req, res, next) => {
 
       sgMail.send(mailOptions, function (err) {
         if (err) return next(err)
-        res.redirect(process.env.REDIRECT_URL)
+        res.redirect(process.env.REDIRECT_URL_STATIC_CONTACT_VALIDATION)
       })
     } else {
       res.json('Wrong Token. Please check again.')
