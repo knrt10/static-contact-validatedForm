@@ -12,15 +12,15 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 router.get('/', (req, res, next) => {
   const userAgent = req.headers['user-agent']// requests user agent
   const ip = req.headers['x-forwarded-for'] ||
-         req.connection.remoteAddress ||
-         req.socket.remoteAddress ||
-         req.connection.socket.remoteAddress
+    req.connection.remoteAddress ||
+    req.socket.remoteAddress ||
+    req.connection.socket.remoteAddress
   // setting an empty object
   const query = {}
   // Getting ip
   query['ip'] = ip
   //saving all info in object
-  for(key in req.query) {
+  for (key in req.query) {
     query[key] = req.query[key]
   }
 
@@ -29,8 +29,8 @@ router.get('/', (req, res, next) => {
     return next()
   }
 
-  var token = jwt.sign({data: query}, process.env.SECRET)
-  var tokenEmail = jwt.sign({data: token}, process.env.SECRET, {
+  var token = jwt.sign({ data: query }, process.env.SECRET)
+  var tokenEmail = jwt.sign({ data: token }, process.env.SECRET, {
     expiresIn: '1h'
   })
 
@@ -40,10 +40,10 @@ router.get('/', (req, res, next) => {
   let queryies = queryString.stringify(query)
 
   var mailOptions = {
-      from: 'Verify@Email.com', // sender address
-      to: query.email, // list of receivers
-      subject: 'Verify Your Email', // Subject line
-      html: `
+    from: 'Verify@Email.com', // sender address
+    to: query.email, // list of receivers
+    subject: 'Verify Your Email', // Subject line
+    html: `
             <div style="background-color:#2E4053;color:#F1948A;font-style:italic;width:800px;font-size:24px;padding:20px;">
             Click to verify your email : <a href="${process.env.HOSTED_URL}/verify/emailVerify?${queryies}" style="color:#FAE5D3">Click to verify</a>
             <br/><br/>
@@ -54,11 +54,11 @@ router.get('/', (req, res, next) => {
             Thank you for your patience
             </div>
             `
-    }
+  }
 
   sgMail.send(mailOptions, function (err) {
     if (err) return next(err)
-  res.render('verify', {data: query})
+    res.render('verify', { data: query })
   })
 })
 
@@ -70,38 +70,38 @@ router.get('/emailVerify', (req, res, next) => {
   try {
     const decoded = jwt.verify(tokenEmail, process.env.SECRET)
 
-      // deleting token from out object
-      delete data.token
+    // deleting token from out object
+    delete data.token
 
-      for (var prop in data) {
-        if (data.hasOwnProperty(prop)) {
-          var innerObj = {}
-          innerObj[prop] = data[prop];
-          arr.push(innerObj)
-        }
+    for (var prop in data) {
+      if (data.hasOwnProperty(prop)) {
+        var innerObj = {}
+        innerObj[prop] = data[prop];
+        arr.push(innerObj)
       }
+    }
 
-      if (decoded.data) {
-        var mailOptions = {
-          from: data.email, // sender address
-          to: process.env.RECEIVER_EMAIL, // list of receivers
-          subject: 'Contact Message from your site', // Subject line
-          html: `
+    if (decoded.data) {
+      var mailOptions = {
+        from: data.email, // sender address
+        to: process.env.RECEIVER_EMAIL, // list of receivers
+        subject: 'Contact Message from your site', // Subject line
+        html: `
                 <div style="background-color:#2E4053;color:#F1948A;font-style:italic;width:800px;font-size:24px;padding:20px;">
                 ${arr.map((item) => `
-                <h3>`+ Object.keys(item) + `: `+ Object.values(item) +`</h3>
+                <h3>`+ Object.keys(item) + `: ` + Object.values(item) + `</h3>
               `.trim()).join('')}
                 </div>`
-        }
-
-        sgMail.send(mailOptions, function (err) {
-          if (err) return next(err)
-          res.redirect(process.env.REDIRECT_URL)
-        })
-      } else {
-        res.json('Wrong Token. Please check again.')
       }
-  } catch(err) {
+
+      sgMail.send(mailOptions, function (err) {
+        if (err) return next(err)
+        res.redirect(process.env.REDIRECT_URL)
+      })
+    } else {
+      res.json('Wrong Token. Please check again.')
+    }
+  } catch (err) {
     res.json('Sorry not authorized for you.')
   }
 })

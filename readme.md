@@ -19,11 +19,19 @@ Sometimes people try to span your email and you get anonymous emails. To avoid t
 
 ![Preview](https://res.cloudinary.com/dsyvg5xwi/image/upload/v1531587414/out3_hpfi8i.gif)
 
+## Initial Setup
+
+```bash
+git clone git@github.com:knrt10/static-contact-validatedForm.git
+
+cd static-contact-validatedForm/
+```
+
 ## How to setup your form
 
-1.) fork the repository
+1.) Follow [Initial Setup](#initial-setup)
 
-2.) Host it on any domain you want, I would suggest [Glitch](https://glitch.com/)
+2.) Host it on any domain you want, I would suggest [Zeit Now](https://zeit.co/docs/v2/introduction/)
 
 3.) Add an `.env` file in your root folder for reference see [.env.example](https://github.com/knrt10/static-contact-validatedForm/blob/master/.env.example)
 
@@ -51,6 +59,15 @@ Sometimes people try to span your email and you get anonymous emails. To avoid t
 **name** field in html form for **email** field is mandatory. Rest you can add as many as you want.
 
 - **All set, you're ready to collect submissions** :fire: Enjoy.
+
+## Development
+
+First follow [Initial Setup](#initial-setup) then you can use develop using 2 methods
+
+#### Docker 
+
+#### Local Development 
+
 
 ## license
 
