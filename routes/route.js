@@ -4,6 +4,7 @@ const sgMail = require('@sendgrid/mail')
 const jwt = require('jsonwebtoken')
 const queryString = require('query-string')
 const store = require('store')
+const disposable = require('disposable-email');
 
 // setting SENDGRID_API_KEY_STATIC_CONTACT_VALIDATION
 sgMail.setApiKey(process.env.SENDGRID_API_KEY_STATIC_CONTACT_VALIDATION)
@@ -11,6 +12,7 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY_STATIC_CONTACT_VALIDATION)
 // getting informaion when one send Email
 
 router.get('/', (req, res, next) => {
+
   const userAgent = req.headers['user-agent']// requests user agent
   const ip = req.headers['x-forwarded-for'] ||
     req.connection.remoteAddress ||
@@ -30,8 +32,14 @@ router.get('/', (req, res, next) => {
     return next()
   }
 
-  var token = jwt.sign({ data: query }, process.env.SECRET_STATIC_CONTACT_VALIDATION)
-  var tokenEmail = jwt.sign({ data: token }, process.env.SECRET_STATIC_CONTACT_VALIDATION, {
+  // Validate email address
+  emailValidated = disposable.validate(req.query.email)
+  if (!emailValidated) {
+    return res.json("Cannot use this email address, please go back and enter valid email address");
+  }
+
+  let token = jwt.sign({ data: query }, process.env.SECRET_STATIC_CONTACT_VALIDATION)
+  let tokenEmail = jwt.sign({ data: token }, process.env.SECRET_STATIC_CONTACT_VALIDATION, {
     expiresIn: '1h'
   })
 
@@ -40,7 +48,7 @@ router.get('/', (req, res, next) => {
 
   let queryies = queryString.stringify(query)
 
-  var mailOptions = {
+  let mailOptions = {
     from: 'Verify@Email.com', // sender address
     to: query.email, // list of receivers
     subject: 'Verify Your Email', // Subject line
@@ -83,16 +91,16 @@ router.get('/emailVerify', (req, res, next) => {
       // deleting token from out object
       delete data.token
 
-      for (var prop in data) {
+      for (let prop in data) {
         if (data.hasOwnProperty(prop)) {
-          var innerObj = {}
+          let innerObj = {}
           innerObj[prop] = data[prop];
           arr.push(innerObj)
         }
       }
 
       if (decoded.data) {
-        var mailOptions = {
+        let mailOptions = {
           from: data.email, // sender address
           to: process.env.RECEIVER_EMAIL_STATIC_CONTACT_VALIDATION, // list of receivers
           subject: 'Contact Message from your site', // Subject line

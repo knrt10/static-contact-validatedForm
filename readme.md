@@ -12,6 +12,7 @@ You can add a contact form in your static website like site hosted on Github and
 Sometimes people try to span your email and you get anonymous emails. To avoid this, I have created this so that one has to authenticate their emails before sending message to you.
 
 - Avoid Spam emails
+- Check for blacklisted mail servers
 - Can add as many **name** fields in your HTML form.
 - Get IP address of the sender
 
@@ -78,7 +79,7 @@ npm run dockerStart # To start the service
 npm run dockerStop # To stop the service
 ```
 
-You can access you appr at port specified in your `.env` file or **3000**
+You can access your app at port specified in your `.env` file or **3000**
 
 #### Local Development 
 
