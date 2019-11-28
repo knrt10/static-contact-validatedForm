@@ -27,5 +27,8 @@
     }],
   "github": {
     "enabled": false
-  }
+  },
+  "regions": [
+    "gru"
+  ]
 }

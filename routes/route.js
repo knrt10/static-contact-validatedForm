@@ -18,22 +18,34 @@ router.get('/', (req, res, next) => {
     req.connection.remoteAddress ||
     req.socket.remoteAddress ||
     req.connection.socket.remoteAddress
+  
+  // check for userAgent that it is curl and avoid sending emailSent
+  if (userAgent.includes("curl")) {
+    return res.json("Cannot use curl request. This software is for web use only")
+  }
+
   // setting an empty object
   const query = {}
   // Getting ip
   query['ip'] = ip
+
+  if (req.query === undefined || req.query === null || req.query === '') {
+    return res.json('Sorry you have not aceess to this')
+  }
+
+  // Checking req.query for name, email and message
+  const { name, email, message} = req.query
+  if (!name || !email || !message) {
+    return res.json("Don't be smart and enter all fields " + ip);
+  }
+
   //saving all info in object
   for (key in req.query) {
     query[key] = req.query[key]
   }
 
-  if (req.query === undefined || req.query === null || req.query === '') {
-    res.json('Sorry you have not aceess to this')
-    return next()
-  }
-
   // Validate email address
-  emailValidated = disposable.validate(req.query.email)
+  emailValidated = disposable.validate(email)
   if (!emailValidated) {
     return res.json("Cannot use this email address, please go back and enter valid email address");
   }
@@ -68,7 +80,10 @@ router.get('/', (req, res, next) => {
   const emailSent = store.get("emailSent")
   if (emailSent === undefined) {
     sgMail.send(mailOptions, function (err) {
-      if (err) return next(err)
+      if (err) { 
+        console.error(`${err.message} with code ${err.code}`)
+        return res.json("Cannot send email to this address");
+      }
       store.set("emailSent", { verified: "true" })
       store.set("userVerification", { verified: "false" })
       res.render('verify', { data: query })
