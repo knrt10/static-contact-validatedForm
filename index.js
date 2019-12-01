@@ -1,6 +1,7 @@
 require('dotenv').config()
 // Start === requiring express modules
 const express = require('express')
+const useragent = require('express-useragent');
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const path = require('path')
@@ -19,6 +20,7 @@ const route = require('./routes/route')
 
 // Start === Setting modules to use
 app.use(cors())
+app.use(useragent.express())
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
 // === END

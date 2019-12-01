@@ -20,8 +20,8 @@ router.get('/', (req, res, next) => {
     req.connection.socket.remoteAddress
   
   // check for userAgent that it is curl and avoid sending emailSent
-  if (userAgent.includes("curl")) {
-    return res.json("Cannot use curl request. This software is for web use only")
+  if (userAgent.includes("curl") || !req.useragent.isDesktop) {
+    return res.json("Unauthorized to make request like this. This software is for web use only")
   }
 
   // setting an empty object
