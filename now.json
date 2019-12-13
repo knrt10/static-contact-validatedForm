@@ -9,7 +9,8 @@
     "EMAIL_RECEIVER_STATIC_CONTACT_VALIDATION": "@email-receiver-static-contact-validation",
     "RECEIVER_EMAIL_STATIC_CONTACT_VALIDATION": "@receiver-email-static-contact-validation",
     "HOSTED_URL_STATIC_CONTACT_VALIDATION": "@hosted-url-static-contact-validation",
-    "PORT_STATIC_CONTACT_VALIDATION": "@port-static-contact-validation"
+    "PORT_STATIC_CONTACT_VALIDATION": "@port-static-contact-validation",
+    "TESTING_ENABLED_STATIC_CONTACT_VALIDATION": "@testing_enabled_static_contact_validation"
   },
   "builds": [
     {

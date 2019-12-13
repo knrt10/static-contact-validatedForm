@@ -15,6 +15,7 @@ Sometimes people try to span your email and you get anonymous emails. To avoid t
 - Check for blacklisted mail servers
 - Can add as many **name** fields in your HTML form.
 - Get IP address of the sender
+- Avoid DDOS attacks
 
 ## Preview
 

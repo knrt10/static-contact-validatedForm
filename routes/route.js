@@ -6,6 +6,7 @@ const queryString = require('query-string')
 const store = require('store')
 const disposable = require('disposable-email');
 
+const testingEnabled = process.env.TESTING_ENABLED_STATIC_CONTACT_VALIDATION
 // setting SENDGRID_API_KEY_STATIC_CONTACT_VALIDATION
 sgMail.setApiKey(process.env.SENDGRID_API_KEY_STATIC_CONTACT_VALIDATION)
 
@@ -13,14 +14,13 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY_STATIC_CONTACT_VALIDATION)
 
 router.get('/', (req, res, next) => {
 
-  const userAgent = req.headers['user-agent']// requests user agent
   const ip = req.headers['x-forwarded-for'] ||
     req.connection.remoteAddress ||
     req.socket.remoteAddress ||
     req.connection.socket.remoteAddress
-  
+
   // check for userAgent that it is curl and avoid sending emailSent
-  if (userAgent.includes("curl") || !req.useragent.isDesktop) {
+  if (!req.useragent.isDesktop && testingEnabled === "false") {
     return res.json("Unauthorized to make request like this. This software is for web use only")
   }
 
